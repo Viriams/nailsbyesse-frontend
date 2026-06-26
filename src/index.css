@@ -1,5 +1,11 @@
 @import "tailwindcss";
 
+@media (prefers-color-scheme: light) {
+  html {
+    filter: none;
+  }
+}
+
 /* ── Variables qui s'adaptent automatiquement ── */
 :root {
   --bg-primary: #ffffff;
@@ -10,8 +16,6 @@
   --text-muted: #888888;
   --border: rgba(0, 0, 0, 0.1);
   --card-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-  color-scheme: dark;
-
 
   /* Couleurs Nails By Esse — fixes */
   --esse-fuchsia: #C2185B;
