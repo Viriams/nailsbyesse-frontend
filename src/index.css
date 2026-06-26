@@ -1,42 +1,5 @@
 @import "tailwindcss";
 
-@media (prefers-color-scheme: light) {
-  html {
-    filter: none;
-  }
-}
-
-/* ── Variables qui s'adaptent automatiquement ── */
-:root {
-  --bg-primary: #ffffff;
-  --bg-secondary: #f8f4f0;
-  --bg-card: #ffffff;
-  --text-primary: #1a1a1a;
-  --text-secondary: #4a4a4a;
-  --text-muted: #888888;
-  --border: rgba(0, 0, 0, 0.1);
-  --card-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-
-  /* Couleurs Nails By Esse — fixes */
-  --esse-fuchsia: #C2185B;
-  --esse-violet: #4A148C;
-  --esse-or: #F9A825;
-  --esse-noir: #1A1A1A;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg-primary: #1A1A1A;
-    --bg-secondary: #2a1a2e;
-    --bg-card: rgba(255, 255, 255, 0.05);
-    --text-primary: #f5f5f5;
-    --text-secondary: #d0d0d0;
-    --text-muted: rgba(255, 255, 255, 0.5);
-    --border: rgba(255, 255, 255, 0.1);
-    --card-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
-  }
-}
-
 *,
 *::before,
 *::after {
@@ -46,12 +9,11 @@
 }
 
 body {
-  background-color: var(--bg-primary);
-  color: var(--text-primary);
+  background-color: #1A1A1A;
+  color: #f5f5f5;
   font-family: 'Montserrat', sans-serif;
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
-  transition: background-color 0.3s, color 0.3s;
 }
 
 h1,
@@ -60,13 +22,12 @@ h3 {
   font-family: 'Playfair Display', serif;
 }
 
-/* Scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--bg-primary);
+  background: #1A1A1A;
 }
 
 ::-webkit-scrollbar-thumb {
