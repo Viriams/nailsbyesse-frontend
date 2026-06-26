@@ -7,7 +7,6 @@ const LINKS = [
     { to: '/prestations', label: 'Prestations' },
     { to: '/catalogue', label: 'Catalogue' },
     { to: '/informations', label: 'Infos' },
-    { to: '/reservation', label: 'Réserver', cta: true },
 ]
 
 export default function Navbar() {
@@ -24,60 +23,116 @@ export default function Navbar() {
     useEffect(() => setOpen(false), [location])
 
     return (
-        <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500
-      ${scrolled ? 'bg-esse-noir/95 backdrop-blur-md shadow-lg py-3' : 'bg-transparent py-5'}`}>
-            <div className="max-w-6xl mx-auto px-4 flex items-center justify-between">
+        <header style={{
+            position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50,
+            background: scrolled ? '#1A1A1A' : '#1A1A1AEE',
+            borderBottom: '1px solid #C2185B44',
+            backdropFilter: 'blur(10px)',
+            transition: 'all 0.3s ease',
+            padding: scrolled ? '0.6rem 0' : '1rem 0',
+        }}>
+            <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1.5rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
 
                 {/* Logo */}
-                <Link to="/" className="flex flex-col leading-none group">
-                    <span className="font-script text-3xl text-esse-or group-hover:text-yellow-300 transition-colors">
-                        Nails by Esse
-                    </span>
-                    <span className="font-sans text-[9px] tracking-[0.3em] uppercase text-white/40 -mt-1">
-                        It's all about your nails
-                    </span>
+                <Link to="/" style={{ textDecoration: 'none' }}>
+                    <div style={{ lineHeight: 1 }}>
+                        <div style={{
+                            fontFamily: '"Playfair Display", serif',
+                            fontSize: '1.6rem',
+                            fontWeight: 700,
+                            color: '#F9A825',
+                            letterSpacing: '0.05em',
+                        }}>
+                            Nails by Esse
+                        </div>
+                        <div style={{
+                            fontSize: '0.6rem',
+                            letterSpacing: '0.3em',
+                            color: 'rgba(255,255,255,0.4)',
+                            textTransform: 'uppercase',
+                            marginTop: '2px',
+                        }}>
+                            It's all about your nails
+                        </div>
+                    </div>
                 </Link>
 
                 {/* Desktop nav */}
-                <nav className="hidden md:flex items-center gap-8">
-                    {LINKS.map(link => link.cta ? (
-                        <Link key={link.to} to={link.to} className="btn-primary text-sm px-5 py-2">
-                            {link.label}
-                        </Link>
-                    ) : (
-                        <Link key={link.to} to={link.to}
-                            className={`font-sans text-sm tracking-wide transition-colors hover:text-esse-or
-                ${location.pathname === link.to ? 'text-esse-or' : 'text-white/70'}`}>
+                <nav style={{ display: 'flex', alignItems: 'center', gap: '2rem' }} className="hidden-mobile">
+                    {LINKS.map(link => (
+                        <Link key={link.to} to={link.to} style={{
+                            fontFamily: 'Montserrat, sans-serif',
+                            fontSize: '0.85rem',
+                            fontWeight: 500,
+                            letterSpacing: '0.05em',
+                            textDecoration: 'none',
+                            color: location.pathname === link.to ? '#F9A825' : 'rgba(255,255,255,0.75)',
+                            borderBottom: location.pathname === link.to ? '2px solid #C2185B' : '2px solid transparent',
+                            paddingBottom: '2px',
+                            transition: 'all 0.2s',
+                        }}>
                             {link.label}
                         </Link>
                     ))}
+                    <Link to="/reservation" style={{
+                        fontFamily: 'Montserrat, sans-serif',
+                        fontSize: '0.82rem',
+                        fontWeight: 600,
+                        letterSpacing: '0.1em',
+                        textDecoration: 'none',
+                        color: '#fff',
+                        background: 'linear-gradient(135deg, #C2185B, #4A148C)',
+                        padding: '0.55rem 1.3rem',
+                        borderRadius: '6px',
+                        textTransform: 'uppercase',
+                        transition: 'opacity 0.2s',
+                    }}>
+                        Réserver
+                    </Link>
                 </nav>
 
                 {/* Burger mobile */}
-                <button onClick={() => setOpen(!open)} className="md:hidden text-white/80 hover:text-esse-or">
+                <button
+                    onClick={() => setOpen(!open)}
+                    className="show-mobile"
+                    style={{ background: 'none', border: 'none', color: '#F9A825', cursor: 'pointer', padding: '0.5rem' }}>
                     {open ? <X size={24} /> : <Menu size={24} />}
                 </button>
             </div>
 
             {/* Menu mobile */}
             {open && (
-                <div className="md:hidden bg-esse-noir/98 backdrop-blur-lg border-t border-white/10">
-                    <nav className="flex flex-col px-4 py-4 gap-1">
-                        {LINKS.map(link => (
-                            <Link key={link.to} to={link.to}
-                                className={`font-sans text-base py-3 px-4 rounded-lg transition-colors
-                  ${link.cta
-                                        ? 'bg-esse-fuchsia text-white text-center mt-2'
-                                        : location.pathname === link.to
-                                            ? 'text-esse-or bg-white/5'
-                                            : 'text-white/70 hover:text-esse-or hover:bg-white/5'
-                                    }`}>
-                                {link.label}
-                            </Link>
-                        ))}
-                    </nav>
+                <div style={{
+                    background: '#1A1A1A',
+                    borderTop: '1px solid #C2185B44',
+                    padding: '1rem 1.5rem',
+                }}>
+                    {[...LINKS, { to: '/reservation', label: 'Réserver 💅' }].map(link => (
+                        <Link key={link.to} to={link.to} style={{
+                            display: 'block',
+                            padding: '0.75rem 0',
+                            fontFamily: 'Montserrat, sans-serif',
+                            fontSize: '1rem',
+                            textDecoration: 'none',
+                            color: location.pathname === link.to ? '#F9A825' : 'rgba(255,255,255,0.7)',
+                            borderBottom: '1px solid rgba(255,255,255,0.05)',
+                        }}>
+                            {link.label}
+                        </Link>
+                    ))}
                 </div>
             )}
+
+            <style>{`
+        @media (max-width: 768px) {
+          .hidden-mobile { display: none !important; }
+          .show-mobile { display: block !important; }
+        }
+        @media (min-width: 769px) {
+          .show-mobile { display: none !important; }
+          .hidden-mobile { display: flex !important; }
+        }
+      `}</style>
         </header>
     )
 }
