@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { CheckCircle, XCircle, Clock } from 'lucide-react'
+import { CheckCircle, XCircle, Trash2 } from 'lucide-react'
 import api from '../../utils/api'
 
 const STATUTS = {
@@ -13,7 +13,7 @@ export default function AdminReservations() {
     const [filtre, setFiltre] = useState('')
     const [loading, setLoading] = useState(true)
 
-    const fetch = () => {
+    const fetchData = () => {
         setLoading(true)
         const params = filtre ? `?statut=${filtre}` : ''
         api.get(`/api/admin/reservations${params}`)
@@ -22,18 +22,23 @@ export default function AdminReservations() {
             .finally(() => setLoading(false))
     }
 
-    useEffect(() => { fetch() }, [filtre])
+    useEffect(() => { fetchData() }, [filtre])
 
     const updateStatut = async (id, statut) => {
         await api.patch(`/api/admin/reservations/${id}/statut`, { statut })
-        fetch()
+        fetchData()
+    }
+
+    const supprimerReservation = async (id) => {
+        if (!confirm('Supprimer définitivement cette réservation ?')) return
+        await api.delete(`/api/admin/reservations/${id}`)
+        fetchData()
     }
 
     return (
         <div>
             <h1 className="font-display text-2xl text-white mb-8">Réservations</h1>
 
-            {/* Filtres */}
             <div className="flex flex-wrap gap-3 mb-6">
                 {[
                     { value: '', label: 'Toutes' },
@@ -43,7 +48,7 @@ export default function AdminReservations() {
                 ].map(f => (
                     <button key={f.value} onClick={() => setFiltre(f.value)}
                         className={`font-sans text-xs tracking-wider uppercase px-4 py-2 rounded-full border transition-all
-              ${filtre === f.value
+                            ${filtre === f.value
                                 ? 'bg-esse-or text-esse-noir border-esse-or'
                                 : 'border-white/20 text-white/50 hover:border-esse-or/50'}`}>
                         {f.label}
@@ -99,6 +104,12 @@ export default function AdminReservations() {
                                         <button onClick={() => updateStatut(r.id, 'annule')}
                                             className="flex items-center gap-1 font-sans text-xs text-red-400 border border-red-500/30 px-3 py-1 rounded-full hover:bg-red-500/10 transition-all">
                                             <XCircle size={13} /> Annuler
+                                        </button>
+                                    )}
+                                    {r.statut === 'annule' && (
+                                        <button onClick={() => supprimerReservation(r.id)}
+                                            className="flex items-center gap-1 font-sans text-xs text-white/30 border border-white/10 px-3 py-1 rounded-full hover:bg-red-500/10 hover:text-red-400 transition-all">
+                                            <Trash2 size={13} /> Supprimer
                                         </button>
                                     )}
                                 </div>
